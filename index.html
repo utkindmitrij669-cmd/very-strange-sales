@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Очень Странные Продажи — 3-денний мінікурс | Влада</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-dark: #0a0a12;
+  --bg-deep: #0d0d1a;
+  --red: #e63946;
+  --red-glow: #ff1a2e;
+  --red-dark: #8b0000;
+  --yellow: #ffd166;
+  --yellow-dim: #b8942e;
+  --blue: #2d6a9f;
+  --text: #e8e6e3;
+  --text-dim: #8a8a9a;
+  --text-bright: #ffffff;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background: var(--bg-dark);
+  color: var(--text);
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* ===== AUDIO OVERLAY ===== */
+.audio-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(5, 5, 10, 0.97);
+  backdrop-filter: blur(20px);
+  cursor: pointer;
+  transition: opacity 1s ease, visibility 1s ease;
+}
+.audio-overlay.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.audio-overlay-content {
+  text-align: center;
+  animation: pulse-glow 2.5s ease-in-out infinite;
+}
+.audio-overlay-content h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  color: var(--red);
+  text-shadow: 0 0 40px rgba(230, 57, 70, 0.6), 0 0 80px rgba(230, 57, 70, 0.3);
+  margin-bottom: 0.5rem;
+  letter-spacing: 4px;
+}
+.audio-overlay-content .overlay-sub {
+  color: var(--text-dim);
+  font-size: 0.95rem;
+  margin-bottom: 2.5rem;
+  max-width: 400px;
+}
+.enter-btn {
+  display: inline-block;
+  padding: 18px 56px;
+  border: 2px solid var(--red);
+  background: transparent;
+  color: var(--red);
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+.enter-btn::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: var(--red);
+  transition: left 0.4s ease;
+  z-index: -1;
+}
+.enter-btn:hover::before { left: 0; }
+.enter-btn:hover { color: #fff; box-shadow: 0 0 40px rgba(230, 57, 70, 0.5); }
+
+@keyframes pulse-glow {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.15); }
+}
+
+/* ===== NOISE ===== */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  opacity: 0.4;
+}
+
+/* ===== FLICKERING LIGHTS ===== */
+.flicker-container {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+.flicker-light {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--yellow);
+  box-shadow: 0 0 10px var(--yellow), 0 0 20px var(--yellow-dim);
+  animation: flicker 3s ease-in-out infinite;
+}
+@keyframes flicker {
+  0%, 100% { opacity: 0.3; }
+  20% { opacity: 1; }
+  25% { opacity: 0.15; }
+  30% { opacity: 0.85; }
+  50% { opacity: 0.1; }
+  70% { opacity: 0.9; }
+  75% { opacity: 0.2; }
+  90% { opacity: 0.7; }
+}
+
+/* ===== GLOBAL ===== */
+section {
+  position: relative;
+  z-index: 2;
+  padding: 90px 20px;
+}
+.container {
+  max-width: 920px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* ===== HERO ===== */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  padding-top: 60px;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  bottom: -40%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 130%;
+  height: 100%;
+  background: radial-gradient(ellipse at center, rgba(230, 57, 70, 0.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-price-badge {
+  display: inline-block;
+  padding: 10px 28px;
+  border: 1px solid rgba(230, 57, 70, 0.5);
+  border-radius: 30px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 28px;
+  animation: fadeInUp 1s ease 0.2s both;
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.6rem, 7vw, 5.2rem);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: 2px;
+  color: var(--red);
+  text-shadow: 0 0 60px rgba(230, 57, 70, 0.4), 0 0 120px rgba(230, 57, 70, 0.15);
+  margin-bottom: 24px;
+  animation: fadeInUp 1s ease 0.4s both;
+}
+.hero-sub {
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  color: var(--text);
+  max-width: 660px;
+  margin: 0 auto 16px;
+  line-height: 1.7;
+  animation: fadeInUp 1s ease 0.6s both;
+}
+.hero-details {
+  font-size: 0.9rem;
+  color: var(--text-dim);
+  margin-bottom: 36px;
+  animation: fadeInUp 1s ease 0.7s both;
+}
+.hero-cta { animation: fadeInUp 1s ease 0.8s both; }
+
+.price-block {
+  margin-bottom: 20px;
+}
+.price-old {
+  text-decoration: line-through;
+  color: var(--text-dim);
+  font-size: 1rem;
+  margin-right: 10px;
+}
+.price-new {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.4rem;
+  font-weight: 900;
+  color: var(--yellow);
+  text-shadow: 0 0 20px rgba(255, 209, 102, 0.3);
+}
+.price-currency {
+  font-size: 1.2rem;
+  color: var(--yellow-dim);
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== CTA ===== */
+.cta-btn {
+  display: inline-block;
+  padding: 20px 52px;
+  background: var(--red);
+  color: #fff;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  box-shadow: 0 4px 30px rgba(230, 57, 70, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+.cta-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 50px rgba(230, 57, 70, 0.6);
+}
+.cta-btn::after {
+  content: '';
+  position: absolute;
+  top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  background: linear-gradient(transparent, rgba(255,255,255,0.1), transparent);
+  transform: rotate(45deg);
+  transition: all 0.5s ease;
+  opacity: 0;
+}
+.cta-btn:hover::after { opacity: 1; left: 100%; }
+
+.cta-small {
+  display: block;
+  margin-top: 12px;
+  font-size: 0.78rem;
+  color: var(--text-dim);
+}
+
+/* ===== SECTION STYLES ===== */
+.section-label {
+  font-size: 0.72rem;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 14px;
+}
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 900;
+  color: var(--text-bright);
+  line-height: 1.2;
+  margin-bottom: 50px;
+}
+.section-title span { color: var(--red); }
+
+/* ===== PAIN ===== */
+.pain-section {
+  background: linear-gradient(180deg, var(--bg-dark), #08081a, var(--bg-dark));
+}
+.pain-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 22px;
+  margin-bottom: 50px;
+}
+.pain-card {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.06);
+  padding: 30px 26px;
+  transition: all 0.4s ease;
+}
+.pain-card:hover {
+  border-color: rgba(230, 57, 70, 0.3);
+  background: rgba(230, 57, 70, 0.03);
+  transform: translateY(-3px);
+}
+.pain-card .icon { font-size: 1.8rem; margin-bottom: 14px; }
+.pain-card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  color: var(--text-bright);
+  margin-bottom: 8px;
+}
+.pain-card p { font-size: 0.9rem; color: var(--text-dim); line-height: 1.6; }
+
+.pain-quote {
+  text-align: center;
+  padding: 36px;
+  border-left: 3px solid var(--red);
+  border-right: 3px solid var(--red);
+  margin: 0 auto;
+  max-width: 700px;
+}
+.pain-quote p {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  font-style: italic;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+/* ===== PROGRAM ===== */
+.program-section { background: var(--bg-dark); }
+.episode {
+  position: relative;
+  padding: 36px 36px 36px 40px;
+  margin-bottom: 36px;
+  background: rgba(255,255,255,0.015);
+  border: 1px solid rgba(255,255,255,0.05);
+  overflow: hidden;
+}
+.episode::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 4px; height: 100%;
+  background: linear-gradient(180deg, var(--red), var(--red-dark), transparent);
+}
+.episode-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.8rem;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 10px;
+}
+.episode h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.3rem, 3vw, 1.7rem);
+  color: var(--text-bright);
+  margin-bottom: 6px;
+}
+.episode .subtitle {
+  color: var(--text-dim);
+  font-size: 0.92rem;
+  margin-bottom: 18px;
+}
+.episode-points { list-style: none; padding: 0; }
+.episode-points li {
+  position: relative;
+  padding-left: 26px;
+  margin-bottom: 10px;
+  font-size: 0.92rem;
+  color: var(--text);
+}
+.episode-points li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 7px;
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--yellow);
+  box-shadow: 0 0 8px var(--yellow), 0 0 14px rgba(255, 209, 102, 0.4);
+  animation: flicker 4s ease-in-out infinite;
+}
+.episode-points li:nth-child(2)::before { animation-delay: 0.4s; }
+.episode-points li:nth-child(3)::before { animation-delay: 0.8s; }
+.episode-points li:nth-child(4)::before { animation-delay: 1.2s; }
+.episode-result {
+  margin-top: 18px;
+  padding: 14px 18px;
+  background: rgba(230, 57, 70, 0.06);
+  border-left: 3px solid var(--red);
+}
+.episode-result strong {
+  color: var(--red);
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.episode-result p { color: var(--text); font-size: 0.9rem; margin-top: 4px; }
+
+/* ===== AUTHOR ===== */
+.author-section {
+  background: linear-gradient(180deg, var(--bg-dark), #0e0e1e, var(--bg-dark));
+}
+.author-block {
+  display: flex;
+  gap: 44px;
+  align-items: flex-start;
+}
+.author-photo-wrap {
+  flex-shrink: 0;
+  width: 200px;
+  height: 250px;
+  background: linear-gradient(135deg, rgba(230,57,70,0.15), rgba(45,106,159,0.15));
+  border: 1px solid rgba(230,57,70,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.author-photo-wrap img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+.author-photo-placeholder {
+  color: var(--text-dim);
+  font-size: 0.75rem;
+  text-align: center;
+  padding: 20px;
+  letter-spacing: 1px;
+}
+.author-info h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.7rem;
+  color: var(--text-bright);
+  margin-bottom: 4px;
+}
+.author-tag {
+  color: var(--red);
+  font-size: 0.82rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 20px;
+  display: block;
+}
+.author-info p {
+  font-size: 0.93rem;
+  color: var(--text-dim);
+  line-height: 1.7;
+  margin-bottom: 12px;
+}
+.author-info p strong { color: var(--text); }
+.author-highlights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 22px;
+}
+.highlight-tag {
+  padding: 8px 18px;
+  border: 1px solid rgba(255, 209, 102, 0.25);
+  background: rgba(255, 209, 102, 0.04);
+  font-size: 0.8rem;
+  color: var(--yellow);
+  letter-spacing: 0.5px;
+}
+
+/* ===== REVIEWS CAROUSEL ===== */
+.reviews-section { background: var(--bg-dark); overflow: hidden; }
+
+.carousel-wrapper {
+  position: relative;
+  max-width: 100%;
+  overflow: hidden;
+}
+.carousel-track {
+  display: flex;
+  gap: 20px;
+  transition: transform 0.5s ease;
+  cursor: grab;
+}
+.carousel-track:active { cursor: grabbing; }
+.carousel-slide {
+  flex-shrink: 0;
+  width: 320px;
+  height: 440px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.carousel-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.carousel-slide .placeholder-text {
+  color: var(--text-dim);
+  font-size: 0.8rem;
+  text-align: center;
+  padding: 20px;
+}
+.carousel-nav {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 28px;
+}
+.carousel-btn {
+  width: 48px; height: 48px;
+  border: 1px solid rgba(230,57,70,0.4);
+  background: rgba(10,10,18,0.8);
+  color: var(--red);
+  font-size: 1.3rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+.carousel-btn:hover {
+  border-color: var(--red);
+  background: rgba(230,57,70,0.1);
+  box-shadow: 0 0 20px rgba(230,57,70,0.2);
+}
+.carousel-dots {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.carousel-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: rgba(230,57,70,0.3);
+  transition: all 0.3s;
+}
+.carousel-dot.active {
+  background: var(--red);
+  box-shadow: 0 0 8px rgba(230,57,70,0.5);
+  width: 24px;
+  border-radius: 4px;
+}
+
+/* ===== BONUSES ===== */
+.bonus-section {
+  background: linear-gradient(180deg, var(--bg-dark), #0a0a18, var(--bg-dark));
+}
+.bonus-list { display: grid; gap: 18px; margin-top: 40px; }
+.bonus-item {
+  display: flex;
+  gap: 20px;
+  padding: 26px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.06);
+  transition: all 0.3s ease;
+}
+.bonus-item:hover {
+  border-color: rgba(255, 209, 102, 0.3);
+  background: rgba(255, 209, 102, 0.02);
+}
+.bonus-icon {
+  flex-shrink: 0;
+  width: 48px; height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  border: 1px solid rgba(255, 209, 102, 0.3);
+}
+.bonus-item h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.05rem;
+  color: var(--text-bright);
+  margin-bottom: 4px;
+}
+.bonus-item p { font-size: 0.85rem; color: var(--text-dim); line-height: 1.5; }
+
+/* ===== FAQ ===== */
+.faq-section { background: var(--bg-dark); }
+.faq-item {
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  padding: 22px 0;
+}
+.faq-q {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  gap: 16px;
+}
+.faq-q h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.02rem;
+  color: var(--text-bright);
+  font-weight: 700;
+}
+.faq-toggle {
+  flex-shrink: 0;
+  width: 28px; height: 28px;
+  border: 1px solid rgba(230,57,70,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--red);
+  font-size: 1.2rem;
+  transition: all 0.3s;
+}
+.faq-item.open .faq-toggle { transform: rotate(45deg); }
+.faq-a {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.4s ease;
+}
+.faq-item.open .faq-a { max-height: 300px; padding-top: 14px; }
+.faq-a p { font-size: 0.9rem; color: var(--text-dim); line-height: 1.7; }
+
+/* ===== FINAL CTA ===== */
+.final-cta {
+  text-align: center;
+  padding: 100px 20px;
+  position: relative;
+  overflow: hidden;
+}
+.final-cta::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(230,57,70,0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+.final-cta .section-title { margin-bottom: 16px; }
+.final-cta .sub-text {
+  color: var(--text-dim);
+  font-size: 1rem;
+  max-width: 560px;
+  margin: 0 auto 30px;
+  line-height: 1.7;
+}
+.urgency-bar {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 24px;
+  border: 1px solid rgba(230,57,70,0.3);
+  background: rgba(230,57,70,0.05);
+  margin-bottom: 28px;
+  font-size: 0.82rem;
+  color: var(--red);
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+.urgency-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--red);
+  animation: blink 1s ease-in-out infinite;
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.final-price {
+  margin: 24px 0;
+}
+
+/* ===== GUARANTEE ===== */
+.guarantee-block {
+  max-width: 560px;
+  margin: 40px auto 0;
+  padding: 24px 28px;
+  border: 1px solid rgba(255, 209, 102, 0.2);
+  background: rgba(255, 209, 102, 0.03);
+  text-align: left;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+.guarantee-block .g-icon { font-size: 1.6rem; flex-shrink: 0; }
+.guarantee-block p { font-size: 0.88rem; color: var(--text-dim); line-height: 1.6; }
+.guarantee-block strong { color: var(--yellow); }
+
+/* ===== VOLUME ===== */
+.volume-control {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+  width: 46px; height: 46px;
+  border: 1px solid rgba(230,57,70,0.4);
+  background: rgba(10,10,18,0.9);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--red);
+  font-size: 1.1rem;
+  transition: all 0.3s;
+}
+.volume-control:hover {
+  border-color: var(--red);
+  box-shadow: 0 0 20px rgba(230,57,70,0.3);
+}
+
+/* ===== STICKY CTA ===== */
+.sticky-cta {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 999;
+  background: rgba(10,10,18,0.95);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(230,57,70,0.2);
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  transform: translateY(100%);
+  transition: transform 0.4s ease;
+}
+.sticky-cta.visible { transform: translateY(0); }
+.sticky-price {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: var(--yellow);
+}
+.sticky-cta .cta-btn {
+  padding: 14px 36px;
+  font-size: 0.9rem;
+}
+
+/* ===== FOOTER ===== */
+footer {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 40px 20px 80px;
+  border-top: 1px solid rgba(255,255,255,0.04);
+  font-size: 0.78rem;
+  color: var(--text-dim);
+}
+
+/* ===== REVEAL ===== */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ===== GLITCH ===== */
+.glitch { position: relative; }
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+}
+.glitch::before {
+  color: var(--blue);
+  z-index: -1;
+  animation: glitch-1 3.5s infinite linear alternate-reverse;
+}
+.glitch::after {
+  color: var(--red);
+  z-index: -2;
+  animation: glitch-2 2.5s infinite linear alternate-reverse;
+}
+@keyframes glitch-1 {
+  0%, 95% { clip-path: inset(0); transform: translate(0); }
+  96% { clip-path: inset(20% 0 60% 0); transform: translate(-3px, 1px); }
+  97% { clip-path: inset(50% 0 20% 0); transform: translate(2px, -1px); }
+  98% { clip-path: inset(10% 0 70% 0); transform: translate(-1px, 2px); }
+  99% { clip-path: inset(40% 0 40% 0); transform: translate(1px, -2px); }
+}
+@keyframes glitch-2 {
+  0%, 94% { clip-path: inset(0); transform: translate(0); }
+  95% { clip-path: inset(60% 0 10% 0); transform: translate(2px, -1px); }
+  96.5% { clip-path: inset(30% 0 40% 0); transform: translate(-2px, 1px); }
+  98% { clip-path: inset(70% 0 5% 0); transform: translate(1px, 1px); }
+  99.5% { clip-path: inset(15% 0 55% 0); transform: translate(-1px, -1px); }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  section { padding: 60px 16px; }
+  .author-block { flex-direction: column; align-items: center; text-align: center; }
+  .author-photo-wrap { width: 160px; height: 200px; }
+  .author-highlights { justify-content: center; }
+  .bonus-item { flex-direction: column; text-align: center; align-items: center; }
+  .episode { padding: 26px 20px 26px 24px; }
+  .carousel-slide { width: 280px; height: 380px; }
+  .guarantee-block { flex-direction: column; text-align: center; align-items: center; }
+  .sticky-cta { gap: 12px; }
+  .sticky-cta .cta-btn { padding: 12px 24px; font-size: 0.8rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- AUDIO -->
+<audio id="bgMusic" loop preload="auto">
+  <!--
+    🎵 ИНСТРУКЦИЯ: Вставь сюда ссылку на mp3 файл мелодии
+    Например: <source src="stranger-things-theme.mp3" type="audio/mpeg">
+    Или используй URL: <source src="https://yoursite.com/music.mp3" type="audio/mpeg">
+  -->
+  <source src="stranger-things-theme.mp3" type="audio/mpeg">
+</audio>
+
+<!-- AUDIO OVERLAY -->
+<div class="audio-overlay" id="audioOverlay">
+  <div class="audio-overlay-content">
+    <h2>ОЧЕНЬ СТРАННЫЕ<br>ПРОДАЖИ</h2>
+    <p class="overlay-sub">Увімкни звук та занурься у атмосферу</p>
+    <button class="enter-btn" id="enterBtn">УВІЙТИ</button>
+  </div>
+</div>
+
+<!-- FLICKERING LIGHTS -->
+<div class="flicker-container" id="flickerContainer"></div>
+
+<!-- VOLUME TOGGLE -->
+<div class="volume-control" id="volumeBtn" title="Музика вкл/вимк">♫</div>
+
+<!-- STICKY CTA -->
+<div class="sticky-cta" id="stickyCta">
+  <span class="sticky-price">390 ₴</span>
+  <a href="#register" class="cta-btn">ЗАБРАТИ МІСЦЕ</a>
+</div>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-price-badge">3 дні • 3 епізоди • 390 ₴</div>
+    <h1 class="glitch" data-text="ОЧЕНЬ СТРАННЫЕ ПРОДАЖИ">ОЧЕНЬ СТРАННЫЕ ПРОДАЖИ</h1>
+    <p class="hero-sub">
+      3-денний мінікурс від <strong style="color:var(--yellow)">Влади</strong>, який перевірне твоє розуміння продажів через блог. Перестань блукати в <strong style="color:var(--red)">Зворотному Світі</strong> — вийди на стабільний дохід із системою.
+    </p>
+    <p class="hero-details">Записані уроки + чат підтримки + завдання • Доступ назавжди</p>
+    <div class="hero-cta">
+      <div class="price-block">
+        <span class="price-old">990 ₴</span>
+        <span class="price-new">390</span>
+        <span class="price-currency"> ₴</span>
+      </div>
+      <a href="#register" class="cta-btn">ЗАБРАТИ МІСЦЕ</a>
+      <span class="cta-small">Оплата через LiqPay / Monobank</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PAIN ===== -->
+<section class="pain-section">
+  <div class="container">
+    <div class="section-label reveal">Знайоме?</div>
+    <h2 class="section-title reveal">Ти застрягла у <span>Зворотному Світі</span> свого блогу</h2>
+
+    <div class="pain-grid">
+      <div class="pain-card reveal">
+        <div class="icon">🔇</div>
+        <h3>Веду контент — в дірект тиша</h3>
+        <p>Виходиш у сторіс, ділишся знаннями, а у відповідь — нуль заявок. Ніхто не питає про послуги.</p>
+      </div>
+      <div class="pain-card reveal">
+        <div class="icon">🌀</div>
+        <h3>Немає стратегії — дію за настроєм</h3>
+        <p>Плану немає. Є натхнення — знімаєш. Немає — зникаєш на тиждень. І так по колу.</p>
+      </div>
+      <div class="pain-card reveal">
+        <div class="icon">😰</div>
+        <h3>Страшно продавати</h3>
+        <p>Здається, що продажі — це нав'язування. Соромишся назвати ціну, сумніваєшся у своїй цінності.</p>
+      </div>
+      <div class="pain-card reveal">
+        <div class="icon">🔥</div>
+        <h3>Вигоряю без результату</h3>
+        <p>Роблю-роблю-роблю, а грошей з блогу — нуль. Хочеться все кинути і піти в найм.</p>
+      </div>
+      <div class="pain-card reveal">
+        <div class="icon">❓</div>
+        <h3>Не розумію що і кому продавати</h3>
+        <p>Є знання, є досвід — але як упакувати це в продукт і донести цінність? Ступор.</p>
+      </div>
+      <div class="pain-card reveal">
+        <div class="icon">📉</div>
+        <h3>Живу від запуску до запуску</h3>
+        <p>Один місяць — є клієнти, наступний — нуль. Немає стабільності, немає фінансового спокою.</p>
+      </div>
+    </div>
+
+    <div class="pain-quote reveal">
+      <p>«Я роблю контент, але з нього немає продажів. Не розумію як перетворити блог у гроші.»</p>
+      <span style="display:block;margin-top:12px;font-size:0.82rem;color:var(--text-dim);">— з опитування учасниць</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROGRAM ===== -->
+<section class="program-section">
+  <div class="container">
+    <div class="section-label reveal">Програма</div>
+    <h2 class="section-title reveal">3 епізоди, які змінять <span>твій підхід назавжди</span></h2>
+    <p class="reveal" style="color:var(--text-dim);margin-top:-36px;margin-bottom:50px;font-size:0.95rem;">Записані уроки по 20–30 хв + завдання + обговорення в чаті з Владою</p>
+
+    <div class="episode reveal">
+      <div class="episode-num">Епізод 1</div>
+      <h3>«Ласкаво просимо у Зворотний Світ»</h3>
+      <p class="subtitle">Чому твій блог не приносить грошей</p>
+      <ul class="episode-points">
+        <li>5 ознак того, що ти застрягла у Зворотному Світі блогу</li>
+        <li>Головна помилка 90% експертів — і чому «більше контенту» не рішення</li>
+        <li>Діагностика: де саме зламана твоя система монетизації</li>
+        <li>Демогоргон хаосу — як він пожирає твій ресурс і мотивацію</li>
+      </ul>
+      <div class="episode-result">
+        <strong>Результат:</strong>
+        <p>Чітке розуміння, що саме не працює і що потрібно змінити</p>
+      </div>
+    </div>
+
+    <div class="episode reveal">
+      <div class="episode-num">Епізод 2</div>
+      <h3>«Світловий Ланцюжок»</h3>
+      <p class="subtitle">Формула контенту, який продає</p>
+      <ul class="episode-points">
+        <li>4 типи контенту «Світловий ланцюжок» — від охоплень до продажу</li>
+        <li>Чому в тебе є перегляди, але немає заявок — і як це виправити</li>
+        <li>Живий розбір: контент-план «до» і «після»</li>
+        <li>Готовий шаблон плану на тиждень — просто заповни темами</li>
+      </ul>
+      <div class="episode-result">
+        <strong>Результат:</strong>
+        <p>Конкретний план контенту, який веде до продажу</p>
+      </div>
+    </div>
+
+    <div class="episode reveal">
+      <div class="episode-num">Епізод 3</div>
+      <h3>«Вихід зі Зворотного Світу»</h3>
+      <p class="subtitle">Система стабільного доходу з блогу</p>
+      <ul class="episode-points">
+        <li>3 елементи системи: стратегія + воронка + продуктова лінійка</li>
+        <li>Як побудувати шлях клієнта від «побачив» до «купив»</li>
+        <li>Що, кому і за скільки продавати — формуємо продукти</li>
+        <li>Покроковий план на перший місяць стабільних продажів</li>
+      </ul>
+      <div class="episode-result">
+        <strong>Результат:</strong>
+        <p>Готова стратегія і наступні кроки до стабільного доходу з блогу</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== AUTHOR: ВЛАДА ===== -->
+<section class="author-section">
+  <div class="container">
+    <div class="section-label reveal">Твій провідник</div>
+    <h2 class="section-title reveal" style="margin-bottom:40px;">Хто виведе тебе <span>зі Зворотного Світу</span></h2>
+
+    <div class="author-block reveal">
+      <div class="author-photo-wrap">
+        <img src="vlada.png" alt="Влада">
+      </div>
+      <div class="author-info">
+        <h3>Влада</h3>
+        <span class="author-tag">Продюсер • Стратег • Наставник з монетизації блогу</span>
+        <p>Я теж була у Зворотному Світі. Знімала сторіс кожен день, робила прогріви — а в дірект тиша. Вигорала, сумнівалася, хотіла все кинути.</p>
+        <p>Потім я побудувала <strong>СИСТЕМУ</strong>. І все змінилося. Зараз я допомагаю експертам перестати жити від запуску до запуску і вибудувати стабільний дохід з блогу.</p>
+        <p>Мій метод — це <strong>поєднання стратегії, контент-воронок і психології продажів</strong>. Я не про «танцювати з бубном в рілс», а про систему, де 20% дій дають 80% результату.</p>
+        <p>Я супроводжую на кожному етапі: ми разом розробляємо стратегію, чіткий план дій і коригуємо процеси. <strong>Твердий підхід + м'яка підтримка.</strong></p>
+        <div class="author-highlights">
+          <span class="highlight-tag">Стратегії запусків</span>
+          <span class="highlight-tag">Контент-воронки</span>
+          <span class="highlight-tag">Продуктові лінійки</span>
+          <span class="highlight-tag">Психологія продажів</span>
+          <span class="highlight-tag">Особистий бренд</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== REVIEWS CAROUSEL ===== -->
+<section class="reviews-section">
+  <div class="container">
+    <div class="section-label reveal">Відгуки</div>
+    <h2 class="section-title reveal">Вони вже <span>вийшли зі Зворотного Світу</span></h2>
+
+    <div class="carousel-wrapper reveal">
+      <div class="carousel-track" id="carouselTrack">
+        <!--
+          📸 ІНСТРУКЦІЯ: Заміни placeholder на реальні скрини відгуків
+          Для кожного слайда: заміни <div class="placeholder-text">...</div>
+          на: <img src="review-1.jpg" alt="Відгук 1">
+        -->
+        <div class="carousel-slide">
+          <div class="placeholder-text">📸<br>Скрін відгуку 1<br><small>Заміни на img</small></div>
+        </div>
+        <div class="carousel-slide">
+          <div class="placeholder-text">📸<br>Скрін відгуку 2<br><small>Заміни на img</small></div>
+        </div>
+        <div class="carousel-slide">
+          <div class="placeholder-text">📸<br>Скрін відгуку 3<br><small>Заміни на img</small></div>
+        </div>
+        <div class="carousel-slide">
+          <div class="placeholder-text">📸<br>Скрін відгуку 4<br><small>Заміни на img</small></div>
+        </div>
+        <div class="carousel-slide">
+          <div class="placeholder-text">📸<br>Скрін відгуку 5<br><small>Заміни на img</small></div>
+        </div>
+        <div class="carousel-slide">
+          <div class="placeholder-text">📸<br>Скрін відгуку 6<br><small>Заміни на img</small></div>
+        </div>
+        <div class="carousel-slide">
+          <div class="placeholder-text">📸<br>Скрін відгуку 7<br><small>Заміни на img</small></div>
+        </div>
+        <div class="carousel-slide">
+          <div class="placeholder-text">📸<br>Скрін відгуку 8<br><small>Заміни на img</small></div>
+        </div>
+      </div>
+
+      <div class="carousel-nav">
+        <button class="carousel-btn" id="prevBtn">←</button>
+        <div class="carousel-dots" id="carouselDots"></div>
+        <button class="carousel-btn" id="nextBtn">→</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== BONUSES ===== -->
+<section class="bonus-section">
+  <div class="container">
+    <div class="section-label reveal">Бонуси</div>
+    <h2 class="section-title reveal">Що ти отримаєш <span>окрім уроків</span></h2>
+
+    <div class="bonus-list">
+      <div class="bonus-item reveal">
+        <div class="bonus-icon">📋</div>
+        <div>
+          <h4>Чек-лист «Діагностика Зворотного Світу»</h4>
+          <p>20 питань, які покажуть де саме зламана твоя система монетизації</p>
+        </div>
+      </div>
+      <div class="bonus-item reveal">
+        <div class="bonus-icon">🗓</div>
+        <div>
+          <h4>Шаблон контент-плану «Світловий ланцюжок»</h4>
+          <p>Готова структура на тиждень — заповни темами і починай</p>
+        </div>
+      </div>
+      <div class="bonus-item reveal">
+        <div class="bonus-icon">💬</div>
+        <div>
+          <h4>Закритий чат з Владою та учасницями</h4>
+          <p>Обговорення, зворотний зв'язок, мотивація — ти не одна</p>
+        </div>
+      </div>
+      <div class="bonus-item reveal">
+        <div class="bonus-icon">♾️</div>
+        <div>
+          <h4>Доступ до уроків назавжди</h4>
+          <p>Переглядай скільки хочеш, коли хочеш. Записи нікуди не зникнуть.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="faq-section">
+  <div class="container">
+    <div class="section-label reveal">Питання</div>
+    <h2 class="section-title reveal" style="margin-bottom:36px;">Часті <span>питання</span></h2>
+
+    <div class="faq-item reveal">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        <h4>У мене мало підписників. Це для мене?</h4>
+        <div class="faq-toggle">+</div>
+      </div>
+      <div class="faq-a"><p>Так! Система працює незалежно від кількості підписників. Навіть з 300 підписниками можна мати стабільні продажі, якщо є правильна стратегія і воронка.</p></div>
+    </div>
+
+    <div class="faq-item reveal">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        <h4>Я ще навіть не почала вести блог. Чи варто?</h4>
+        <div class="faq-toggle">+</div>
+      </div>
+      <div class="faq-a"><p>Ідеально! Краще з самого початку будувати систему, ніж потім переробляти. Ти зекономиш місяці хаотичних дій і вигорання.</p></div>
+    </div>
+
+    <div class="faq-item reveal">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        <h4>Скільки часу займе проходження?</h4>
+        <div class="faq-toggle">+</div>
+      </div>
+      <div class="faq-a"><p>Кожен урок — 20-30 хвилин + завдання на 15-20 хвилин. Загалом близько години на день. Уроки записані — дивись у зручний час.</p></div>
+    </div>
+
+    <div class="faq-item reveal">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        <h4>А якщо в мене немає продукту для продажу?</h4>
+        <div class="faq-toggle">+</div>
+      </div>
+      <div class="faq-a"><p>На 3-му епізоді ми розберемо як сформувати продуктову лінійку під різні сегменти аудиторії. Ти вийдеш з розумінням того, що, кому і за скільки продавати.</p></div>
+    </div>
+
+    <div class="faq-item reveal">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        <h4>Як відбувається оплата?</h4>
+        <div class="faq-toggle">+</div>
+      </div>
+      <div class="faq-a"><p>Оплата через LiqPay або Monobank — безпечно і швидко. Після оплати ти одразу отримаєш доступ до закритого каналу з уроками і чат.</p></div>
+    </div>
+
+    <div class="faq-item reveal">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        <h4>Чим це відрізняється від безкоштовних марафонів?</h4>
+        <div class="faq-toggle">+</div>
+      </div>
+      <div class="faq-a"><p>Тут немає «води» і загальних порад. Кожен епізод — конкретний інструмент, який ти впровадиш одразу. Плюс чат із Владою, де отримаєш зворотний зв'язок на свою ситуацію.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FINAL CTA ===== -->
+<section class="final-cta" id="register">
+  <div class="container">
+    <div class="urgency-bar reveal">
+      <span class="urgency-dot"></span>
+      КІЛЬКІСТЬ МІСЦЬ ОБМЕЖЕНА
+    </div>
+    <h2 class="section-title reveal">Готова вийти<br>зі <span>Зворотного Світу</span>?</h2>
+    <p class="sub-text reveal">3 дні. 3 епізоди. Система, яка змінить твій підхід до блогу і продажів. Назавжди.</p>
+
+    <div class="final-price reveal">
+      <span class="price-old">990 ₴</span>
+      <span class="price-new">390</span>
+      <span class="price-currency"> ₴</span>
+    </div>
+
+    <div class="reveal">
+      <!--
+        💳 ІНСТРУКЦІЯ: Заміни href на посилання оплати LiqPay/Mono
+        Наприклад: href="https://www.liqpay.ua/checkout/..."
+      -->
+      <a href="#" class="cta-btn" style="font-size:1.15rem;padding:22px 60px;" id="payBtn">ОПЛАТИТИ 390 ₴</a>
+      <span class="cta-small">Оплата через LiqPay / Monobank • Доступ одразу після оплати</span>
+    </div>
+
+    <div class="guarantee-block reveal">
+      <div class="g-icon">🛡️</div>
+      <div>
+        <p><strong>Гарантія:</strong> Якщо після 1-го епізоду ти зрозумієш, що це не для тебе — напиши і я поверну гроші. Без питань. Мені важливо, щоб ти отримала цінність.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Влада — Очень Странные Продажи. Всі права захищені.</p>
+</footer>
+
+<script>
+// ===== AUDIO =====
+const music = document.getElementById('bgMusic');
+let musicPlaying = false;
+
+document.getElementById('enterBtn').addEventListener('click', () => {
+  music.volume = 0.3;
+  music.play().catch(() => {});
+  musicPlaying = true;
+  document.getElementById('audioOverlay').classList.add('hidden');
+});
+
+document.getElementById('audioOverlay').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('audioOverlay')) {
+    music.volume = 0.3;
+    music.play().catch(() => {});
+    musicPlaying = true;
+    document.getElementById('audioOverlay').classList.add('hidden');
+  }
+});
+
+document.getElementById('volumeBtn').addEventListener('click', () => {
+  const btn = document.getElementById('volumeBtn');
+  if (musicPlaying) {
+    music.pause();
+    musicPlaying = false;
+    btn.textContent = '🔇';
+  } else {
+    music.play().catch(() => {});
+    musicPlaying = true;
+    btn.textContent = '♫';
+  }
+});
+
+// ===== FLICKERING LIGHTS =====
+const flickerContainer = document.getElementById('flickerContainer');
+for (let i = 0; i < 22; i++) {
+  const light = document.createElement('div');
+  light.className = 'flicker-light';
+  light.style.left = Math.random() * 100 + '%';
+  light.style.top = Math.random() * 100 + '%';
+  light.style.animationDelay = Math.random() * 5 + 's';
+  light.style.animationDuration = (2 + Math.random() * 4) + 's';
+  const size = 2 + Math.random() * 4;
+  light.style.width = size + 'px';
+  light.style.height = size + 'px';
+  flickerContainer.appendChild(light);
+}
+
+// ===== CAROUSEL =====
+const track = document.getElementById('carouselTrack');
+const slides = track.querySelectorAll('.carousel-slide');
+const dotsContainer = document.getElementById('carouselDots');
+let currentSlide = 0;
+let slidesPerView = window.innerWidth < 768 ? 1 : 3;
+let slideWidth = window.innerWidth < 768 ? 300 : 340;
+const maxSlide = Math.max(0, slides.length - slidesPerView);
+
+// Create dots
+for (let i = 0; i <= maxSlide; i++) {
+  const dot = document.createElement('div');
+  dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+  dot.addEventListener('click', () => goToSlide(i));
+  dotsContainer.appendChild(dot);
+}
+
+function goToSlide(index) {
+  currentSlide = Math.max(0, Math.min(index, maxSlide));
+  track.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
+  document.querySelectorAll('.carousel-dot').forEach((d, i) => {
+    d.classList.toggle('active', i === currentSlide);
+  });
+}
+
+document.getElementById('prevBtn').addEventListener('click', () => goToSlide(currentSlide - 1));
+document.getElementById('nextBtn').addEventListener('click', () => goToSlide(currentSlide + 1));
+
+// Touch/swipe support
+let startX = 0;
+let isDragging = false;
+track.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; isDragging = true; });
+track.addEventListener('touchmove', (e) => { if (!isDragging) return; });
+track.addEventListener('touchend', (e) => {
+  if (!isDragging) return;
+  isDragging = false;
+  const diff = startX - e.changedTouches[0].clientX;
+  if (diff > 50) goToSlide(currentSlide + 1);
+  else if (diff < -50) goToSlide(currentSlide - 1);
+});
+
+// Resize handler
+window.addEventListener('resize', () => {
+  slidesPerView = window.innerWidth < 768 ? 1 : 3;
+  slideWidth = window.innerWidth < 768 ? 300 : 340;
+  goToSlide(Math.min(currentSlide, Math.max(0, slides.length - slidesPerView)));
+});
+
+// ===== SCROLL REVEAL =====
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ===== STICKY CTA =====
+const stickyCta = document.getElementById('stickyCta');
+const heroSection = document.querySelector('.hero');
+const stickyObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    stickyCta.classList.toggle('visible', !entry.isIntersecting);
+  });
+}, { threshold: 0 });
+stickyObserver.observe(heroSection);
+</script>
+</body>
+</html>
