@@ -819,9 +819,176 @@ footer {
   .sticky-cta { gap: 12px; }
   .sticky-cta .cta-btn { padding: 12px 24px; font-size: 0.8rem; }
 }
+
+/* ===== POPUP ===== */
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10001;
+  background: rgba(5, 5, 10, 0.92);
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+  padding: 20px;
+}
+.popup-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+.popup-box {
+  background: var(--bg-deep);
+  border: 1px solid rgba(230, 57, 70, 0.3);
+  max-width: 440px;
+  width: 100%;
+  padding: 40px 32px;
+  position: relative;
+  transform: translateY(20px);
+  transition: transform 0.4s ease;
+}
+.popup-overlay.active .popup-box {
+  transform: translateY(0);
+}
+.popup-close {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 1.4rem;
+  cursor: pointer;
+  transition: color 0.3s;
+  line-height: 1;
+}
+.popup-close:hover { color: var(--red); }
+.popup-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--red);
+  margin-bottom: 6px;
+  text-align: center;
+}
+.popup-sub {
+  font-size: 0.88rem;
+  color: var(--text-dim);
+  text-align: center;
+  margin-bottom: 28px;
+  line-height: 1.5;
+}
+.popup-field {
+  margin-bottom: 16px;
+}
+.popup-field label {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  margin-bottom: 6px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.popup-field input {
+  width: 100%;
+  padding: 14px 16px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--text-bright);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.3s;
+}
+.popup-field input::placeholder {
+  color: var(--text-dim);
+}
+.popup-field input:focus {
+  border-color: var(--red);
+}
+.popup-submit {
+  width: 100%;
+  padding: 16px;
+  background: var(--red);
+  color: #fff;
+  border: none;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-top: 8px;
+  box-shadow: 0 4px 20px rgba(230, 57, 70, 0.3);
+}
+.popup-submit:hover {
+  box-shadow: 0 6px 30px rgba(230, 57, 70, 0.5);
+  transform: translateY(-1px);
+}
+.popup-note {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  text-align: center;
+  margin-top: 14px;
+  line-height: 1.4;
+}
+.popup-success {
+  text-align: center;
+  display: none;
+}
+.popup-success h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  color: var(--yellow);
+  margin-bottom: 12px;
+}
+.popup-success p {
+  font-size: 0.92rem;
+  color: var(--text);
+  line-height: 1.6;
+}
 </style>
 </head>
 <body>
+
+<!-- ПОПАП РЕЄСТРАЦІЇ -->
+<div class="popup-overlay" id="popupOverlay">
+  <div class="popup-box">
+    <button class="popup-close" id="popupClose">&times;</button>
+
+    <div id="popupForm">
+      <div class="popup-title">ЗАБРАТИ МІСЦЕ</div>
+      <p class="popup-sub">Залиш свої дані — і ми надішлемо доступ до закритого каналу з ефірами</p>
+
+      <div class="popup-field">
+        <label>Твоє ім'я</label>
+        <input type="text" id="userName" placeholder="Як тебе звати?" required>
+      </div>
+
+      <div class="popup-field">
+        <label>Номер телефону</label>
+        <input type="tel" id="userPhone" placeholder="+380..." required>
+      </div>
+
+      <div class="popup-field">
+        <label>Telegram (@username або номер)</label>
+        <input type="text" id="userTg" placeholder="@username" required>
+      </div>
+
+      <button class="popup-submit" id="popupSubmit">ЗАБРАТИ БЕЗКОШТОВНО</button>
+      <p class="popup-note">Ми не спамимо. Дані потрібні лише для доступу до ефірів.</p>
+    </div>
+
+    <div class="popup-success" id="popupSuccess">
+      <h3>Ти в грі! 🎉</h3>
+      <p>Через 3 секунди тебе перенаправить у закритий Telegram-канал...</p>
+      <p style="margin-top:12px;"><a href="https://t.me/+AnkDubHgANgyODMy" style="color:var(--yellow);text-decoration:underline;">Натисни тут, якщо не перенаправило</a></p>
+    </div>
+  </div>
+</div>
 
 <!-- АУДІО -->
 <audio id="bgMusic" loop preload="auto">
@@ -833,7 +1000,7 @@ footer {
 <div class="audio-overlay" id="audioOverlay">
   <div class="audio-overlay-content">
     <h2>ДУЖЕ ДИВНІ<br>ПРОДАЖІ</h2>
-    <p class="overlay-sub">Увімкни звук та занурься у атмосферу</p>
+    <p class="overlay-sub">Увімкни звук та зануться у атмосферу</p>
     <button class="enter-btn" id="enterBtn">УВІЙТИ</button>
   </div>
 </div>
@@ -848,7 +1015,7 @@ footer {
 <div class="sticky-cta" id="stickyCta">
   <span class="sticky-price" style="text-decoration:line-through;color:var(--text-dim);font-size:1rem;">1490 ₴</span>
   <span class="sticky-price" style="color:var(--yellow);">БЕЗКОШТОВНО</span>
-  <a href="#register" class="cta-btn">ЗАБРАТИ МІСЦЕ</a>
+  <a href="javascript:void(0)" class="cta-btn" onclick="openPopup()">ЗАБРАТИ МІСЦЕ</a>
 </div>
 
 <!-- ===== HERO ===== -->
@@ -865,7 +1032,7 @@ footer {
         <span class="price-old">1490 ₴</span>
         <span class="price-new" style="color:var(--yellow);">БЕЗКОШТОВНО</span>
       </div>
-      <a href="#register" class="cta-btn">ЗАБРАТИ МІСЦЕ</a>
+      <a href="javascript:void(0)" class="cta-btn" onclick="openPopup()">ЗАБРАТИ МІСЦЕ</a>
       <span class="cta-small">Тільки для перший запуск • Кількість місць обмежена</span>
     </div>
   </div>
@@ -1012,28 +1179,37 @@ footer {
     <div class="carousel-wrapper reveal">
       <div class="carousel-track" id="carouselTrack">
         <div class="carousel-slide">
-          <div class="placeholder-text">📸 Скрін відгуку 1</div>
+          <img src="1.png" alt="Відгук 1">
         </div>
         <div class="carousel-slide">
-          <div class="placeholder-text">📸 Скрін відгуку 2</div>
+          <img src="2.png" alt="Відгук 2">
         </div>
         <div class="carousel-slide">
-          <div class="placeholder-text">📸 Скрін відгуку 3</div>
+          <img src="3.png" alt="Відгук 3">
         </div>
         <div class="carousel-slide">
-          <div class="placeholder-text">📸 Скрін відгуку 4</div>
+          <img src="4.png" alt="Відгук 4">
         </div>
         <div class="carousel-slide">
-          <div class="placeholder-text">📸 Скрін відгуку 5</div>
+          <img src="5.png" alt="Відгук 5">
         </div>
         <div class="carousel-slide">
-          <div class="placeholder-text">📸 Скрін відгуку 6</div>
+          <img src="6.png" alt="Відгук 6">
         </div>
         <div class="carousel-slide">
-          <div class="placeholder-text">📸 Скрін відгуку 7</div>
+          <img src="7.png" alt="Відгук 7">
         </div>
         <div class="carousel-slide">
-          <div class="placeholder-text">📸 Скрін відгуку 8</div>
+          <img src="8.png" alt="Відгук 8">
+        </div>
+        <div class="carousel-slide">
+          <img src="9.png" alt="Відгук 9">
+        </div>
+        <div class="carousel-slide">
+          <img src="10.png" alt="Відгук 10">
+        </div>
+        <div class="carousel-slide">
+          <img src="11.png" alt="Відгук 11">
         </div>
       </div>
 
@@ -1071,7 +1247,7 @@ footer {
         <li style="padding:10px 0;font-size:0.9rem;color:var(--text);">✓ Шаблон контент-плану «Світловий ланцюжок»</li>
       </ul>
 
-      <a href="#register" class="cta-btn" style="width:100%;text-align:center;display:block;padding:18px;font-size:1.05rem;">ЗАБРАТИ БЕЗКОШТОВНО</a>
+      <a href="javascript:void(0)" class="cta-btn" style="width:100%;text-align:center;display:block;padding:18px;font-size:1.05rem;" onclick="openPopup()">ЗАБРАТИ БЕЗКОШТОВНО</a>
       <span class="cta-small" style="text-align:center;">Наступний потік вже буде платним</span>
     </div>
 
@@ -1172,7 +1348,7 @@ footer {
     </div>
 
     <div class="reveal">
-      <a href="#" class="cta-btn" style="font-size:1.15rem;padding:22px 60px;">ЗАБРАТИ БЕЗКОШТОВНО</a>
+      <a href="javascript:void(0)" class="cta-btn" style="font-size:1.15rem;padding:22px 60px;" onclick="openPopup()">ЗАБРАТИ БЕЗКОШТОВНО</a>
       <span class="cta-small">Тільки перший потік • Далі — від 1490 ₴</span>
     </div>
   </div>
@@ -1286,6 +1462,91 @@ const observer = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ===== POPUP =====
+function openPopup() {
+  document.getElementById('popupOverlay').style.display = 'flex';
+  document.getElementById('popupForm').style.display = 'block';
+  document.getElementById('popupSuccess').style.display = 'none';
+  document.body.style.overflow = 'hidden';
+}
+
+function closePopup() {
+  document.getElementById('popupOverlay').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+document.getElementById('popupClose').addEventListener('click', closePopup);
+document.getElementById('popupOverlay').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('popupOverlay')) closePopup();
+});
+
+document.getElementById('popupSubmit').addEventListener('click', async () => {
+  const name = document.getElementById('userName').value.trim();
+  const phone = document.getElementById('userPhone').value.trim();
+  const tg = document.getElementById('userTg').value.trim();
+
+  if (!name || !phone || !tg) {
+    alert('Будь ласка, заповни всі поля');
+    return;
+  }
+
+  const btn = document.getElementById('popupSubmit');
+  btn.textContent = 'НАДСИЛАЮ...';
+  btn.disabled = true;
+
+  // ===== GOOGLE SHEETS INTEGRATION =====
+  // ІНСТРУКЦІЯ:
+  // 1. Створи Google таблицю (будь-яку, порожню)
+  // 2. Відкрий Розширення → Apps Script
+  // 3. Вставь цей код:
+  //
+  // function doPost(e) {
+  //   var ss = SpreadsheetApp.getActiveSpreadsheet();
+  //   var sheet = ss.getSheetByName("Дивні продажі");
+  //   if (!sheet) {
+  //     sheet = ss.insertSheet("Дивні продажі");
+  //     sheet.appendRow(["Дата", "Ім'я", "Телефон", "Telegram"]);
+  //     sheet.getRange("1:1").setFontWeight("bold");
+  //     sheet.setColumnWidth(1, 180);
+  //     sheet.setColumnWidth(2, 200);
+  //     sheet.setColumnWidth(3, 180);
+  //     sheet.setColumnWidth(4, 200);
+  //   }
+  //   var data = JSON.parse(e.postData.contents);
+  //   sheet.appendRow([new Date(), data.name, data.phone, data.tg]);
+  //   return ContentService.createTextOutput(JSON.stringify({status: "ok"}))
+  //     .setMimeType(ContentService.MimeType.JSON);
+  // }
+  //
+  // 4. Натисни "Розгорнути" → "Веб-додаток"
+  // 5. Доступ: "Будь-хто" → Розгорнути
+  // 6. Скопіюй URL і встав нижче замість ВСТАВЬ_СЮДИ_URL_GOOGLE_APPS_SCRIPT
+
+  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyZj24f3hfhovIxMKYgt3VMMNAK17BmsE9xbPu_iDX5T69fCLYiUZoSP9g-sO8LpMVJ/exec';
+
+  try {
+    if (GOOGLE_SCRIPT_URL) {
+      await fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, phone, tg })
+      });
+    }
+  } catch (err) {
+    console.log('Google Sheets error (non-blocking):', err);
+  }
+
+  // Показуємо успіх
+  document.getElementById('popupForm').style.display = 'none';
+  document.getElementById('popupSuccess').style.display = 'block';
+
+  // Редірект на Telegram через 3 секунди
+  setTimeout(() => {
+    window.location.href = 'https://t.me/+AnkDubHgANgyODMy';
+  }, 3000);
+});
 
 // ===== STICKY CTA =====
 const stickyCta = document.getElementById('stickyCta');
