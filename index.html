@@ -960,7 +960,7 @@ footer {
     <button class="popup-close" id="popupClose">&times;</button>
 
     <div id="popupForm">
-      <div class="popup-title">ЗАБРАТИ МІСЦЕ</div>
+      <div class="popup-title">ПРИЄДНАТИСЯ</div>
       <p class="popup-sub">Залиш свої дані — і ми надішлемо доступ до закритого каналу з ефірами</p>
 
       <div class="popup-field">
@@ -978,7 +978,7 @@ footer {
         <input type="text" id="userTg" placeholder="@username" required>
       </div>
 
-      <button class="popup-submit" id="popupSubmit">ЗАБРАТИ БЕЗКОШТОВНО</button>
+      <button class="popup-submit" id="popupSubmit">ПРИЄДНАТИСЯ</button>
       <p class="popup-note">Ми не спамимо. Дані потрібні лише для доступу до ефірів.</p>
     </div>
 
@@ -1015,7 +1015,7 @@ footer {
 <div class="sticky-cta" id="stickyCta">
   <span class="sticky-price" style="text-decoration:line-through;color:var(--text-dim);font-size:1rem;">1490 ₴</span>
   <span class="sticky-price" style="color:var(--yellow);">БЕЗКОШТОВНО</span>
-  <a href="javascript:void(0)" class="cta-btn" onclick="openPopup()">ЗАБРАТИ МІСЦЕ</a>
+  <a href="javascript:void(0)" class="cta-btn" onclick="openPopup()">ПРИЄДНАТИСЯ</a>
 </div>
 
 <!-- ===== HERO ===== -->
@@ -1032,8 +1032,8 @@ footer {
         <span class="price-old">1490 ₴</span>
         <span class="price-new" style="color:var(--yellow);">БЕЗКОШТОВНО</span>
       </div>
-      <a href="javascript:void(0)" class="cta-btn" onclick="openPopup()">ЗАБРАТИ МІСЦЕ</a>
-      <span class="cta-small">Тільки для перший запуск • Кількість місць обмежена</span>
+      <a href="javascript:void(0)" class="cta-btn" onclick="openPopup()">ПРИЄДНАТИСЯ</a>
+      <span class="cta-small">Кількість місць обмежена</span>
     </div>
   </div>
 </section>
@@ -1247,7 +1247,7 @@ footer {
         <li style="padding:10px 0;font-size:0.9rem;color:var(--text);">✓ Шаблон контент-плану «Світловий ланцюжок»</li>
       </ul>
 
-      <a href="javascript:void(0)" class="cta-btn" style="width:100%;text-align:center;display:block;padding:18px;font-size:1.05rem;" onclick="openPopup()">ЗАБРАТИ БЕЗКОШТОВНО</a>
+      <a href="javascript:void(0)" class="cta-btn" style="width:100%;text-align:center;display:block;padding:18px;font-size:1.05rem;" onclick="openPopup()">ПРИЄДНАТИСЯ</a>
       <span class="cta-small" style="text-align:center;">Наступний потік вже буде платним</span>
     </div>
 
@@ -1348,8 +1348,8 @@ footer {
     </div>
 
     <div class="reveal">
-      <a href="javascript:void(0)" class="cta-btn" style="font-size:1.15rem;padding:22px 60px;" onclick="openPopup()">ЗАБРАТИ БЕЗКОШТОВНО</a>
-      <span class="cta-small">Тільки перший потік • Далі — від 1490 ₴</span>
+      <a href="javascript:void(0)" class="cta-btn" style="font-size:1.15rem;padding:22px 60px;" onclick="openPopup()">ПРИЄДНАТИСЯ</a>
+      <span class="cta-small">Тільки перший потік безкоштовно</span>
     </div>
   </div>
 </section>
@@ -1465,14 +1465,14 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
 // ===== POPUP =====
 function openPopup() {
-  document.getElementById('popupOverlay').style.display = 'flex';
+  document.getElementById('popupOverlay').classList.add('active');
   document.getElementById('popupForm').style.display = 'block';
   document.getElementById('popupSuccess').style.display = 'none';
   document.body.style.overflow = 'hidden';
 }
 
 function closePopup() {
-  document.getElementById('popupOverlay').style.display = 'none';
+  document.getElementById('popupOverlay').classList.remove('active');
   document.body.style.overflow = '';
 }
 
