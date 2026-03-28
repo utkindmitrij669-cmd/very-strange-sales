@@ -951,6 +951,22 @@ footer {
   line-height: 1.6;
 }
 </style>
+
+<!-- Facebook Pixel -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1648181812851913');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1648181812851913&ev=PageView&noscript=1"/></noscript>
+
 </head>
 <body>
 
@@ -1495,33 +1511,18 @@ document.getElementById('popupSubmit').addEventListener('click', async () => {
   btn.textContent = 'НАДСИЛАЮ...';
   btn.disabled = true;
 
+  // ===== UTM МІТКИ =====
+  const params = new URLSearchParams(window.location.search);
+  const utm = {
+    source: params.get('utm_source') || '',
+    medium: params.get('utm_medium') || '',
+    campaign: params.get('utm_campaign') || '',
+    content: params.get('utm_content') || '',
+    term: params.get('utm_term') || ''
+  };
+
   // ===== GOOGLE SHEETS INTEGRATION =====
-  // ІНСТРУКЦІЯ:
-  // 1. Створи Google таблицю (будь-яку, порожню)
-  // 2. Відкрий Розширення → Apps Script
-  // 3. Вставь цей код:
-  //
-  // function doPost(e) {
-  //   var ss = SpreadsheetApp.getActiveSpreadsheet();
-  //   var sheet = ss.getSheetByName("Дивні продажі");
-  //   if (!sheet) {
-  //     sheet = ss.insertSheet("Дивні продажі");
-  //     sheet.appendRow(["Дата", "Ім'я", "Телефон", "Telegram"]);
-  //     sheet.getRange("1:1").setFontWeight("bold");
-  //     sheet.setColumnWidth(1, 180);
-  //     sheet.setColumnWidth(2, 200);
-  //     sheet.setColumnWidth(3, 180);
-  //     sheet.setColumnWidth(4, 200);
-  //   }
-  //   var data = JSON.parse(e.postData.contents);
-  //   sheet.appendRow([new Date(), data.name, data.phone, data.tg]);
-  //   return ContentService.createTextOutput(JSON.stringify({status: "ok"}))
-  //     .setMimeType(ContentService.MimeType.JSON);
-  // }
-  //
-  // 4. Натисни "Розгорнути" → "Веб-додаток"
-  // 5. Доступ: "Будь-хто" → Розгорнути
-  // 6. Скопіюй URL і встав нижче замість ВСТАВЬ_СЮДИ_URL_GOOGLE_APPS_SCRIPT
+  // ОНОВЛЕНИЙ СКРИПТ — з UTM мітками (див. нижче)
 
   const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyZj24f3hfhovIxMKYgt3VMMNAK17BmsE9xbPu_iDX5T69fCLYiUZoSP9g-sO8LpMVJ/exec';
 
@@ -1531,7 +1532,7 @@ document.getElementById('popupSubmit').addEventListener('click', async () => {
         method: 'POST',
         mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, phone, tg })
+        body: JSON.stringify({ name, phone, tg, utm_source: utm.source, utm_medium: utm.medium, utm_campaign: utm.campaign, utm_content: utm.content, utm_term: utm.term })
       });
     }
   } catch (err) {
@@ -1541,6 +1542,15 @@ document.getElementById('popupSubmit').addEventListener('click', async () => {
   // Показуємо успіх
   document.getElementById('popupForm').style.display = 'none';
   document.getElementById('popupSuccess').style.display = 'block';
+
+  // Facebook Pixel — подія Lead
+  if (typeof fbq !== 'undefined') {
+    fbq('track', 'Lead', {
+      content_name: 'Дуже Дивні Продажі',
+      utm_source: utm.source,
+      utm_content: utm.content
+    });
+  }
 
   // Редірект на Telegram через 3 секунди
   setTimeout(() => {
